@@ -1,0 +1,120 @@
+#!/bin/bash
+#Author: John Bohne
+#Date: 12/3/2012
+#Program: CAL
+#Program Description: Accepts more than one month in the command line ie CAL feb mar jun or CAL jan - oct and displays the months.
+#					  Currently only works for the year 2013.
+number_of_args=$#
+if [ $# -eq 0 ] #no arguments
+then
+   set `date`
+    m=$2
+	case $m in
+        jan*|Jan*) m=1 ;; #if month is begins with jan or Jan, set it to month 1
+        feb*|Feb*) m=2 ;;
+        mar*|Mar*) m=3 ;;
+        apr*|Apr*) m=4 ;;
+        may*|May*) m=5 ;;
+        jun*|Jun*) m=6 ;;
+        jul*|Jul*) m=7 ;;
+        aug*|Aug*) m=8 ;;
+        sep*|Sep*) m=9 ;;
+        oct*|Oct*) m=10 ;;
+        nov*|Nov*) m=11 ;;
+        dec*|Dec*) m=12 ;;
+        [1-9]|10|11|12) ;; #if month is 1-9, 10, 11, or 12, do nothing
+        *) y=$m, m="";; #if there is no month given, set year to $m and m to empty string
+	esac
+	cal $m 2013 #use 2012
+elif [ $# -eq 1 ] || [ $# -eq 2 ] #only one or two months as arguments
+then
+    for n in $*
+	do
+     m=$n
+    case $m in
+        jan*|Jan*) m=1 ;; #if month is begins with jan or Jan, set it to month 1
+        feb*|Feb*) m=2 ;;
+        mar*|Mar*) m=3 ;;
+        apr*|Apr*) m=4 ;;
+        may*|May*) m=5 ;;
+        jun*|Jun*) m=6 ;;
+        jul*|Jul*) m=7 ;;
+        aug*|Aug*) m=8 ;;
+        sep*|Sep*) m=9 ;;
+        oct*|Oct*) m=10 ;;
+        nov*|Nov*) m=11 ;;
+        dec*|Dec*) m=12 ;;
+        [1-9]|10|11|12) ;; #if month is 1-9, 10, 11, or 12, do nothing
+        *) y=$m, m="";; #if there is no month given, set year to $m and m to empty string
+     esac
+	 cal $m 2013 #call cal and use the month from the argument
+	done
+elif [ $number_of_args -eq 3 -a $2 = "-" ] #3 arguments only, month - month format
+then
+         beginMonth=$1
+         endMonth=$3
+         case $beginMonth in
+                jan*|Jan*) beginMonth=1 ;; #if month is begins with jan or Jan, set it to month 1
+        feb*|Feb*) beginMonth=2 ;;
+        mar*|Mar*) beginMonth=3 ;;
+        apr*|Apr*) beginMonth=4 ;;
+       may*|May*) beginMonth=5 ;;
+        jun*|Jun*) beginMonth=6 ;;
+        jul*|Jul*) beginMonth=7 ;;
+        aug*|Aug*) beginMonth=8 ;;
+        sep*|Sep*) beginMonth=9 ;;
+        oct*|Oct*) beginMonth=10 ;;
+                nov*|Nov*) beginMonth=11 ;;
+                dec*|Dec*) beginMonth=12 ;;
+                [1-9]|10|11|12) ;; #if month is 1-9, 10, 11, or 12, do nothing
+                *) y=$beginMonth, beginMonth="";; #if there is no month given, set year to $m and m to empty string
+                esac
+        case $endMonth in
+        jan*|Jan*) endMonth=1 ;; #if month is begins with jan or Jan, set it to month 1
+        feb*|Feb*) endMonth=2 ;;
+        mar*|Mar*) endMonth=3 ;;
+        apr*|Apr*) endMonth=4 ;;
+        may*|May*) endMonth=5 ;;
+        jun*|Jun*) endMonth=6 ;;
+        jul*|Jul*) endMonth=7 ;;
+        aug*|Aug*) endMonth=8 ;;
+        sep*|Sep*) endMonth=9 ;;
+        oct*|Oct*) endMonth=10 ;;
+                nov*|Nov*) endMonth=11 ;;
+                dec*|Dec*) endMonth=12 ;;
+                [1-9]|10|11|12) ;; #if month is 1-9, 10, 11, or 12, do nothing
+                *) y=$endMonth, endMonth="";; #if there is no month given, set year to $m and m to empty string
+                esac
+monthResult=`expr $endMonth - $beginMonth`
+                while [ `expr $monthResult + 1`  -gt 0 ] #continue loop until it goes through all of the months
+                do
+                        cal $beginMonth 2012 #call cal and use the month from range
+                        beginMonth=`expr $beginMonth + 1`
+                        monthResult=`expr $monthResult - 1` #decrease monthResult
+                done
+elif [ $number_of_args -ge 3 -a $2 != "-" ] # 3 or more months, NOT month - month format
+then
+        for j in $*
+        do
+         m=$j
+        case $m in
+        jan*|Jan*) m=1 ;; #if month is begins with jan or Jan, set it to month 1
+        feb*|Feb*) m=2 ;;
+        mar*|Mar*) m=3 ;;
+        apr*|Apr*) m=4 ;;
+        may*|May*) m=5 ;;
+        jun*|Jun*) m=6 ;;
+        jul*|Jul*) m=7 ;;
+        aug*|Aug*) m=8 ;;
+        sep*|Sep*) m=9 ;;
+        oct*|Oct*) m=10 ;;
+        nov*|Nov*) m=11 ;;
+        dec*|Dec*) m=12 ;;
+        [1-9]|10|11|12) ;; #if month is 1-9, 10, 11, or 12, do nothing
+        *) y=$m, m="";; #if there is no month given, set year to $m and m to empty string
+        esac
+                cal $m 2013 #call cal and use the month from the argument
+        done
+else
+		echo "Can only accept months for the year 2013 in the format of Jan or January, Feb or February etc."
+fi

@@ -1,0 +1,50 @@
+#!/bin/bash
+#Author: John Bohne
+#Date: 12/1/2012
+#Program: GUESS2
+#Program Description: Read user input to guess an integer from a low to high number which are specified as two arguments in the command line.
+#					  If the user guesses incorrectly, then "too low" or "too high" is printed and the user is asked to reenter a guess number.
+
+low=$1
+high=$2
+if [ $# -lt 2 ] #if number of arguments is less than 2, exit program
+then
+	echo "Too few arguments. Need 2 command line arguments (a low and high number). Try to run the program again."
+	exit 1
+elif [ $# -gt 2 ] #if number of arguments is greater than 2
+then
+	echo "Too many arguments. Need 2 command line arguments (a low and high number). Try the run the program."
+        exit 1
+fi
+if [ $1 -eq $2 ] #if the first argument is equal to the second, exit program
+then
+	echo "$low and $high cannot be equal. Try to run the program again."
+	exit 1
+fi
+randomNumber=$((RANDOM%(($high-$low))+$low))
+guess=0
+echo "Enter a number between $low and $high."
+read guess
+if [ $guess -gt $high ] || [ $guess -lt $low ] #error checking for numbers guessed that are too high
+then
+     while [ $guess -gt $high ] || [ $guess -lt $low ] #while they continue to input higher or lower numbers
+     do
+	 echo "Guess must be between $low and $high. Try again."
+         read guess
+     done
+fi
+while [ $guess -ne $randomNumber ] #while they can't find the number
+do
+ if [ $randomNumber -lt $guess ] #if random number is less than their guess
+ then
+     echo "Input is too high. Try again. "
+     read guess
+ fi
+ if [ $randomNumber -gt $guess ] #if random number is greter than their guess
+ then
+     echo "Input is too low. Try again. "
+     read guess
+ fi
+done
+echo "You guessed the number $randomNumber" #the number is guessed right. Notice that it is after "echo number between low and high" and read guess
+

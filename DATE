@@ -1,0 +1,16 @@
+#!/bin/bash
+#Author: John Bohne
+#Program: DATE
+#Date: 12/1/2012
+#Program Description: Displays the current weekday, month, and current time in certain formats.
+#%A is the date format specifier for WEEKDAY FULLY WRITTEN OUT (eg Tuesday)
+weekday=`date "+%A"`
+#%B is the date format specifier for MONTH NAME FULLY WRITTEN OUT (eg November)
+month=`date "+%B"`
+#%l is hour (1.12) and %P is locale's equivalent of either AM or PM (eg 9pm)
+currentTime=`date "+%l%P"`
+echo "Today's weekday is $weekday."
+echo "The month is $month."
+echo "The current time is $currentTime."
+
+

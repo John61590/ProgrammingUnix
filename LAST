@@ -1,0 +1,15 @@
+#!/bin/bash
+#Author: John Bohne
+#Date: 12/1/2012
+#Program: LAST
+#Program Description: Displays the last argument given in the command line
+if [ $# -eq 0 ]
+then
+	echo "No arguments."
+	exit 1
+fi
+for i in $@    #loop over all arguments
+do
+: #colon (:) must used if there is no other command in the for loop
+done
+echo "Last argument is: $i"
